@@ -30,7 +30,7 @@ do_delete_curl() {
     curl -u $NEXUS_ADMIN:$NEXUS_PASSWORD -X "DELETE" -w "%{http_code}" "$NEXUS_URL/$1"
 }
 
-NB_RELEASES_TO_KEEP=3
+NB_RELEASES_TO_KEEP=0
 BASE_PATH=/srv/nexus/storage/hosted
 
 ######################
@@ -80,7 +80,7 @@ PLATFORM_PRIVATE_DISTRIBUTIONS=6.2.0
 releases=($(do_sort_continuous_releases $(curl -s "https://repository.exoplatform.org/content/groups/public/org/exoplatform/gatein/gatein-dep/maven-metadata.xml" |
     grep "<version>.*</version>" |
     sort --version-sort | uniq |
-    sed -e "s#\(.*\)\(<version>\)\(.*\)\(</version>\)\(.*\)#\3#g" | grep -P ^$GATEIN_DEP-[0-9]{8}$ | xargs)))
+    sed -e "s#\(.*\)\(<version>\)\(.*\)\(</version>\)\(.*\)#\3#g" | grep -P ^$GATEIN_DEP-202102[0-9][0-9]$ | xargs)))
 echo "Available releases are:"
 echo ${releases[@]}
 if [ ${#releases[@]} -le $NB_RELEASES_TO_KEEP ]; then
@@ -98,84 +98,84 @@ for release in ${releases_to_be_dropped[@]}; do
     echo " ($counter/${#releases_to_be_dropped[@]}) Dropping Release:  $PLATFORM_PRIVATE_DISTRIBUTIONS-$rel_suffix..."
     echo "==========================================================================================="
     echo "gatein-dep:$GATEIN_DEP-$rel_suffix"
-    find $BASE_PATH/exo-releases/org/exoplatform/gatein/gatein-dep -type d -name $GATEIN_DEP-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-releases/org/exoplatform/gatein/gatein-dep -type d -name $GATEIN_DEP-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "maven-depmgt-pom:$MAVEN_DEPMGT_POM-$rel_suffix"
-    find $BASE_PATH/exo-releases/org/exoplatform/maven-depmgt-pom -type d -name $MAVEN_DEPMGT_POM-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-releases/org/exoplatform/maven-depmgt-pom -type d -name $MAVEN_DEPMGT_POM-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "gatein-wci:$GATEIN_WCI-$rel_suffix"
-    find $BASE_PATH/exo-releases/org/exoplatform/gatein/wci -type d -name $GATEIN_WCI-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-releases/org/exoplatform/gatein/wci -type d -name $GATEIN_WCI-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "kernel:$KERNEL-$rel_suffix"
-    find $BASE_PATH/exo-releases/org/exoplatform/kernel -type d -name $KERNEL-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-releases/org/exoplatform/kernel -type d -name $KERNEL-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "core:$CORE-$rel_suffix"
-    find $BASE_PATH/exo-releases/org/exoplatform/core -type d -name $CORE-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-releases/org/exoplatform/core -type d -name $CORE-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "ws:$WS-$rel_suffix"
-    find $BASE_PATH/exo-releases/org/exoplatform/ws -type d -name $WS-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-releases/org/exoplatform/ws -type d -name $WS-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "gatein-pc:$GATEIN_PC-$rel_suffix"
-    find $BASE_PATH/exo-releases/org/exoplatform/gatein/pc -type d -name $GATEIN_PC-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-releases/org/exoplatform/gatein/pc -type d -name $GATEIN_PC-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "gatein-sso:$GATEIN_SSO-$rel_suffix"
-    find $BASE_PATH/exo-releases/org/exoplatform/gatein/sso -type d -name $GATEIN_SSO-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-releases/org/exoplatform/gatein/sso -type d -name $GATEIN_SSO-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "gatein-portal:$GATEIN_PORTAL-$rel_suffix"
-    find $BASE_PATH/exo-releases/org/exoplatform/gatein/portal -type d -name $GATEIN_PORTAL-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-releases/org/exoplatform/gatein/portal -type d -name $GATEIN_PORTAL-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "platform-ui:$PLATFORM_UI-$rel_suffix"
-    find $BASE_PATH/exo-releases/org/exoplatform/platform-ui -type d -name $PLATFORM_UI-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-releases/org/exoplatform/platform-ui -type d -name $PLATFORM_UI-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "commons:$COMMONS-$rel_suffix"
-    find $BASE_PATH/exo-releases/org/exoplatform/commons -type d -name $COMMONS-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-releases/org/exoplatform/commons -type d -name $COMMONS-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "social:$SOCIAL-$rel_suffix"
-    find $BASE_PATH/exo-releases/org/exoplatform/social -type d -name $SOCIAL-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-releases/org/exoplatform/social -type d -name $SOCIAL-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "gamification:$GAMIFICATION-$rel_suffix"
-    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/gamification -type d -name $GAMIFICATION-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/gamification -type d -name $GAMIFICATION-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "kudos:$KUDOS-$rel_suffix"
-    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/kudos -type d -name $KUDOS-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/kudos -type d -name $KUDOS-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "perk-store:$PERK_STORE-$rel_suffix"
-    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/perk-store -type d -name $PERK_STORE-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/perk-store -type d -name $PERK_STORE-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "wallet:$WALLET-$rel_suffix"
-    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/wallet -type d -name $WALLET-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/wallet -type d -name $WALLET-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "app-center:$APP_CENTER-$rel_suffix"
-    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/app-center -type d -name $APP_CENTER-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/app-center -type d -name $APP_CENTER-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "push-notifications:$PUSH_NOTIFICATIONS-$rel_suffix"
-    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/push-notifications -type d -name $PUSH_NOTIFICATIONS-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/push-notifications -type d -name $PUSH_NOTIFICATIONS-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "exo-es-embedded:$EXO_ES_EMBEDDED-$rel_suffix"
-    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/exo-es-embedded -type d -name $EXO_ES_EMBEDDED-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/exo-es-embedded -type d -name $EXO_ES_EMBEDDED-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "addons-manager:$ADDONS_MANAGER-$rel_suffix"
-    find $BASE_PATH/exo-releases/org/exoplatform/platform/addons-manager -type d -name $ADDONS_MANAGER-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-releases/org/exoplatform/platform/addons-manager -type d -name $ADDONS_MANAGER-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "meeds:$MEEDS-$rel_suffix"
-    find $BASE_PATH/exo-releases/io/meeds/distribution -type d -name $MEEDS-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-releases/io/meeds/distribution -type d -name $MEEDS-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "wiki:$WIKI-$rel_suffix"
-    find $BASE_PATH/exo-releases/org/exoplatform/wiki -type d -name $WIKI-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-releases/org/exoplatform/wiki -type d -name $WIKI-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "jcr:$JCR-$rel_suffix"
-    find $BASE_PATH/exo-releases/org/exoplatform/jcr -type d -name $JCR-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-releases/org/exoplatform/jcr -type d -name $JCR-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "ecms:$ECMS-$rel_suffix"
-    find $BASE_PATH/exo-releases/org/exoplatform/ecms -type d -name $ECMS-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-releases/org/exoplatform/ecms -type d -name $ECMS-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "agenda:$AGENDA-$rel_suffix"
-    find $BASE_PATH/exo-addons-releases/org/exoplatform/agenda -type d -name $AGENDA-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-addons-releases/org/exoplatform/agenda -type d -name $AGENDA-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "chat-application:$CHAT_APPLICATION-$rel_suffix"
-    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/chat -type d -name $CHAT_APPLICATION-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/chat -type d -name $CHAT_APPLICATION-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "cmis-addon:$CMIS_ADDON-$rel_suffix"
-    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/cmis -type d -name $CMIS_ADDON-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/cmis -type d -name $CMIS_ADDON-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "data-upgrade:$DATA_UPGRADE-$rel_suffix"
-    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/upgrade -type d -name $DATA_UPGRADE-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/upgrade -type d -name $DATA_UPGRADE-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "digital-workplace:$DIGITAL_WORKPLACE-$rel_suffix"
-    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/digital-workplace -type d -name $DIGITAL_WORKPLACE-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/digital-workplace -type d -name $DIGITAL_WORKPLACE-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "layout-management:$LAYOUT_MANAGEMENT-$rel_suffix"
-    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/layout-management -type d -name $LAYOUT_MANAGEMENT-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/layout-management -type d -name $LAYOUT_MANAGEMENT-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "news:$NEWS-$rel_suffix"
-    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/news -type d -name $NEWS-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/news -type d -name $NEWS-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "onlyoffice:$ONLYOFFICE-$rel_suffix"
-    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/onlyoffice -type d -name $ONLYOFFICE-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/onlyoffice -type d -name $ONLYOFFICE-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "remote-edit:$REMOTE_EDIT-$rel_suffix"
-    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/open-document -type d -name $REMOTE_EDIT-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/open-document -type d -name $REMOTE_EDIT-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "saml2-addon:$SAML2_ADDON-$rel_suffix"
-    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/sso/saml2-addon-* -type d -name $SAML2_ADDON-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/sso/saml2-addon-* -type d -name $SAML2_ADDON-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "spnego-addon:$SPNEGO_ADDON-$rel_suffix"
-    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/sso/spnego-addon-* -type d -name $SPNEGO_ADDON-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/sso/spnego-addon-* -type d -name $SPNEGO_ADDON-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "task:$TASK-$rel_suffix"
-    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/task -type d -name $TASK-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/task -type d -name $TASK-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "web-conferencing:$WEB_CONFERENCING-$rel_suffix"
-    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/web-conferencing -type d -name $WEB_CONFERENCING-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/web-conferencing -type d -name $WEB_CONFERENCING-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "jitsi:$JITSI-$rel_suffix"
-    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/jitsi -type d -name $JITSI-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/jitsi -type d -name $JITSI-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "analytics:$ANALYTICS-$rel_suffix"
-    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/analytics -type d -name $ANALYTICS-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/analytics -type d -name $ANALYTICS-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     echo "platform-private-distributions:$PLATFORM_PRIVATE_DISTRIBUTIONS-$rel_suffix"
-    find $BASE_PATH/exo-private-releases/com/exoplatform/platform/distributions -type d -name $PLATFORM_PRIVATE_DISTRIBUTIONS-$rel_suffix -exec rm -rvf {} \;
+    find $BASE_PATH/exo-private-releases/com/exoplatform/platform/distributions -type d -name $PLATFORM_PRIVATE_DISTRIBUTIONS-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     ((counter++))
 done
