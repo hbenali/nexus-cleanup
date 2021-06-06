@@ -77,10 +77,10 @@ ANALYTICS=1.1.0
 PLATFORM_PRIVATE_DISTRIBUTIONS=6.2.0
 ######
 
-releases=($(do_sort_continuous_releases $(curl -s "https://repository.exoplatform.org/content/groups/public/org/exoplatform/gatein/gatein-dep/maven-metadata.xml" |
+releases=($(do_sort_continuous_releases $(curl -s "https://repository.exoplatform.org/content/groups/public/org/exoplatform/kernel/kernel-parent/maven-metadata.xml" |
     grep "<version>.*</version>" |
     sort --version-sort | uniq |
-    sed -e "s#\(.*\)\(<version>\)\(.*\)\(</version>\)\(.*\)#\3#g" | grep -P ^$GATEIN_DEP-202102[0-9][0-9]$ | xargs)))
+    sed -e "s#\(.*\)\(<version>\)\(.*\)\(</version>\)\(.*\)#\3#g" | grep -P ^$KERNEL-202104[0-9][0-9]$ | xargs)))
 echo "Available releases are:"
 echo ${releases[@]}
 if [ ${#releases[@]} -le $NB_RELEASES_TO_KEEP ]; then
