@@ -35,49 +35,52 @@ BASE_PATH=/srv/nexus/storage/hosted
 
 ######################
 ##Modules
-GATEIN_DEP=2.0.4
-MAVEN_DEPMGT_POM=17.4
-GATEIN_WCI=6.0.4
-KERNEL=6.0.4
-CORE=6.0.4
-WS=6.0.4
-GATEIN_PC=6.0.4
-GATEIN_SSO=6.0.4
-GATEIN_PORTAL=6.0.4
-PLATFORM_UI=6.0.4
-COMMONS=6.0.4
-SOCIAL=6.0.4
-GAMIFICATION=2.0.4
-KUDOS=2.0.4
-PERK_STORE=2.0.4
-WALLET=2.0.4
-APP_CENTER=2.0.4
-PUSH_NOTIFICATIONS=2.0.4
-EXO_ES_EMBEDDED=3.0.4
-ADDONS_MANAGER=2.0.4
-MEEDS=1.0.4
-WIKI=6.0.4
-JCR=6.0.4
-ECMS=6.0.4
-CHAT_APPLICATION=3.0.4
-CMIS_ADDON=6.0.4
-DATA_UPGRADE=6.0.4
-DIGITAL_WORKPLACE=1.0.4
-LAYOUT_MANAGEMENT=1.0.4
-NEWS=2.0.4
-ONLYOFFICE=2.0.4
-REMOTE_EDIT=3.0.4
-SAML2_ADDON=3.0.4
-SPNEGO_ADDON=3.0.4
-TASK=3.0.4
-WEB_CONFERENCING=2.0.4
-PLATFORM_PRIVATE_DISTRIBUTIONS=6.0.4
-FORUM=6.0.4
-CALENDAR=6.0.4
-CAS_ADDON=3.0.4
-LECKO=2.0.4
-LEGACY_INTRANET=6.0.4
-OPENAM_ADDON=3.0.4
+GATEIN_DEP=2.1.0
+MAVEN_DEPMGT_POM=18.0
+GATEIN_WCI=6.1.0
+KERNEL=6.1.0
+CORE=6.1.0
+WS=6.1.0
+GATEIN_PC=6.1.0
+GATEIN_SSO=6.1.0
+GATEIN_PORTAL=6.1.0
+PLATFORM_UI=6.1.0
+COMMONS=6.1.0
+SOCIAL=6.1.0
+GAMIFICATION=2.1.0
+KUDOS=2.1.0
+PERK_STORE=2.1.0
+WALLET=2.1.0
+APP_CENTER=2.1.0
+PUSH_NOTIFICATIONS=2.1.0
+EXO_ES_EMBEDDED=3.1.0
+ADDONS_MANAGER=2.1.0
+MEEDS=1.1.0
+WIKI=6.1.0
+JCR=6.1.0
+ECMS=6.1.0
+CHAT_APPLICATION=3.1.0
+CMIS_ADDON=6.1.0
+DATA_UPGRADE=6.1.0
+DIGITAL_WORKPLACE=1.1.0
+LAYOUT_MANAGEMENT=1.1.0
+NEWS=2.1.0
+ONLYOFFICE=2.1.0
+REMOTE_EDIT=3.1.0
+SAML2_ADDON=3.1.0
+SPNEGO_ADDON=3.1.0
+TASK=3.1.0
+WEB_CONFERENCING=2.1.0
+PLATFORM_PRIVATE_DISTRIBUTIONS=6.1.0
+JITSI=1.0.0
+ANALYTICS=1.0.0
+AGENDA=1.0.0
+FORUM=6.1.0
+CALENDAR=6.1.0
+CAS_ADDON=3.1.0
+LECKO=2.1.0
+LEGACY_INTRANET=6.1.0
+OPENAM_ADDON=3.1.0
 ######
 
 releases=($(curl -s "https://repository.exoplatform.org/content/groups/public/org/exoplatform/kernel/kernel-parent/maven-metadata.xml" |
@@ -189,7 +192,11 @@ for release in ${releases_to_be_dropped[@]}; do
     echo "openam-addon:$OPENAM_ADDON-$rel_suffix"
     find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/sso/openam-addon-packaging -type d -name $OPENAM_ADDON-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/sso/openam-addon-parent -type d -name $OPENAM_ADDON-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
-
-
+    echo "jitsi:$JITSI-$rel_suffix"
+    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/jitsi -type d -name $JITSI-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
+    echo "analytics:$ANALYTICS-$rel_suffix"
+    find $BASE_PATH/exo-addons-releases/org/exoplatform/addons/analytics -type d -name $ANALYTICS-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
+    echo "agenda:$AGENDA-$rel_suffix"
+    find $BASE_PATH/exo-addons-releases/org/exoplatform/agenda -type d -name $AGENDA-$rel_suffix -exec rm -rvf {} \; 2>/dev/null || true
     ((counter++))
 done
